@@ -28,6 +28,9 @@ void init_shell(char *filename);
 void run_prompt(char path[]);
 void read_command(char **param, int *paramLen);
 
+// declaring a global environmental variable
+extern char **environ;
+
 int main(int argc, char** argv)
 {
     char *filename=NULL;
@@ -58,7 +61,11 @@ void init_shell(char *filename)
     getcwd(path_ptr, 100);
 
     // environment variables
-    char *environ[] = {(char*) "shell=/myshell", 0};
+    char shell_path[255];
+    strcat(shell_path, "shell=");
+    strcat(shell_path, path);
+    strcat(shell_path, "/myshell");
+    putenv(shell_path);
 
     if(filename != NULL) {
         get_param_batch(filename);
