@@ -27,6 +27,7 @@ references:
 void init_shell(char *filename);
 void run_prompt(char path[]);
 void read_command(char **param, int *paramLen);
+int redirect_exist(char **param, int paramLen);
 
 // declaring a global environmental variable
 extern char **environ;
@@ -109,6 +110,9 @@ void init_shell(char *filename)
             else if(strcmp(param[0], "quit") == 0) {
                 break;
             }
+            else if(redirect_exist(param, paramLen) == 1) {
+                redirect(param, paramLen);
+            }
             else {
                 if(fork()!=0) {
                     wait(NULL);
@@ -180,4 +184,12 @@ void read_command(char **param, int *paramLen)
     }
 
     param[i] = NULL;
+}
+
+int redirect_exist(char **param, int paramLen) {
+    for(int i=0; i<paramLen; i++) {
+        if(strcmp(param[i], ">") == 0 || strcmp(param[i], "<") == 0 || strcmp(param[i], ">>") == 0)
+            return 1;
+    }
+    return 0;
 }

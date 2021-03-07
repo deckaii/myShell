@@ -10,4 +10,7 @@ void echo(char **param, int paramLen);
 void get_param_batch(char *filename);
 int cfileexists(char * filename);
 
+// I/O redirection
+void redirect(char **param, int paramLen);
+
 #endif
