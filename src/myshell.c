@@ -81,7 +81,25 @@ void init_shell(char *filename)
 
 
         if(paramLen > 0) {
-            if(strcmp(param[0], "cd") == 0) { // cd command
+            if(strcmp(param[paramLen-1], "&") == 0){
+                printf("%s\n", param[paramLen-1]);
+                if(fork()!=0) {
+                    wait(NULL);
+                }
+                else {
+                    param[paramLen-1] = NULL;
+                    strcat(shellFunction, param[0]);
+                    execv(shellFunction, param);
+                    free(param[paramLen-1]);
+                }
+            }
+            else if(redirect_exist(param, paramLen) == 1) {
+                printf("Redirected\n");
+                redirect(param, paramLen);
+                paramLen = 0;
+                free(param);
+            }
+            else if(strcmp(param[0], "cd") == 0) { // cd command
                 change_dir(param, paramLen, path_ptr);
             }
             else if(strcmp(param[0], "dir") == 0) {
@@ -110,23 +128,11 @@ void init_shell(char *filename)
             else if(strcmp(param[0], "quit") == 0) {
                 break;
             }
-            else if(redirect_exist(param, paramLen) == 1) {
-                redirect(param, paramLen);
-            }
-            else {
-                if(fork()!=0) {
-                    wait(NULL);
-                }
-                else {
-                    strcat(shellFunction, param[0]);
-                    execv(shellFunction, param);
-                }
-            }
 
             // free parameters and reset paramLen to 0
             if (paramLen > 0) {
-                free(param);
                 paramLen = 0;
+                free(param);
             }
         }
     }
