@@ -21,7 +21,6 @@ void exec_command(char *inp, char *out, char **array, int flag) {
             // printf("%s, %s", array[0], array[1]);
             freopen(out, "w+", stdout);
             execvp(array[0], array);
-            free(array);
             fclose(stdout);
         } else if(flag == 3) {
             freopen(out, "a+", stdout);
@@ -41,7 +40,6 @@ void redirect(char **param, int paramLen) {
 
     char *inp;
     char *out;
-    char **array = (char **)malloc(MAX_WORD_LENGTH*sizeof(char));
     int index=0;
     int flag;
 
@@ -50,41 +48,23 @@ void redirect(char **param, int paramLen) {
         printf("Incorrect usage!\n");
     } else {
         for (int i=1; i<paramLen-1; i++) {
-            printf("%d\n", i);
-            printf("%s\n", param[i-1]);
-            if(strcmp(param[i], "<") == 0) { // input redirection
+            // printf("%s\n", param[i]); Test to see what Param[i] is
+            if(!(strcmp(param[i], "<"))) { // input redirection
                 flag = 1;
                 inp = param[i+1];
-
-                for(int j=0; j<paramLen; j++) {
-                    if(j != i) {
-                        array[index] = param[j];
-                    }
-                    index++;
-                }
+                param[i] = NULL;
                 
-            } else if(strcmp(param[i], ">") == 0) { // output redirection
+            } else if(!(strcmp(param[i], ">"))) { // output redirection
                 flag = 2;
                 out = param[i+1];
-                
-                for(int j=0; j<paramLen; j++) {
-                    if(j != i) {
-                        array[index] = param[j];
-                    }
-                    index++;
-                }
+                param[i] = NULL;
 
-            } else if(strcmp(param[i], ">>") == 0) { // new file redirect
+            } else if(!(strcmp(param[i], ">>"))) { // new file redirect
                 flag = 3;
                 out = param[i+1];
-                
-                for(int j=0; j<paramLen; j++) {
-                    if(!(j == i)) {
-                        array[index] = param[j];
-                    }
-                }
+                param[i] = NULL;
             }
         }
     }
-    exec_command(inp, out, array, flag);
+    exec_command(inp, out, param, flag);
 }

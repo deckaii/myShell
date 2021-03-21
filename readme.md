@@ -17,3 +17,6 @@ You should follow the instructions below:
 ## Other notes
 
 There are supporting exercises to help you with the project.  You will find them all under the [lab4 Section of the CA216 Site](https://ca216.computing.dcu.ie/labs/ca216).  Use Git regularly and commit versions of your code often.
+
+To compile the shell, just enter 'make' in the command line.
+To run the shell do './keysh <filename>'.

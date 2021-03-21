@@ -6,6 +6,7 @@ redirection and has background execution capabilities.
 
 references:
 - Lab4b | https://ca216.computing.dcu.ie/labs/lab4b/
+- https://www.youtube.com/watch?v=z4LEuxMGGs8&t=287s Simple shell in C
 */
 
 
@@ -17,7 +18,9 @@ references:
 #include <unistd.h>
 #include <libgen.h>
 
-// adding all commands header file
+// including header files
+#include "./features/io_redirection.h"
+#include "./features/batchfile.h"
 #include "./commands/commands.h"
 
 // declaring global variables
@@ -48,10 +51,6 @@ int main(int argc, char** argv)
 
 void init_shell(char *filename)
 {
-    // declare arguements and arguement length
-    char **param = (char **)malloc(MAX_WORD_LENGTH*sizeof(char));
-    int paramLen;
-
     // declare variable that holds the directory of the external shell functions
     char *shellFunction = (char *)malloc(MAX_WORD_LENGTH*sizeof(char));
     strcat(shellFunction, "/bin/");
@@ -61,13 +60,19 @@ void init_shell(char *filename)
     char *path_ptr = &path[0];
     getcwd(path_ptr, 100);
 
-    // environment variables
-    char shell_path[255];
-    strcat(shell_path, "shell=");
-    strcat(shell_path, path);
-    strcat(shell_path, "/myshell");
-    putenv(shell_path);
+    // adding shell path to environmental variables
+    char environ_path[255];
+    strcat(environ_path, "shell=");
+    strcat(environ_path, path);
+    strcat(environ_path, "/keyline");
+    putenv(environ_path);
 
+    // gets the shell path
+    char shell_path[255];
+    strcat(shell_path, path);
+
+
+    // checks and executes batchfile if exist
     if(filename != NULL) {
         get_param_batch(filename);
         return;
@@ -75,6 +80,8 @@ void init_shell(char *filename)
 
     while (1) {
 
+        char **param = (char **)malloc(150*sizeof(char));
+        int paramLen = 0;
         // initiates the command prompt and read any arguements
         run_prompt(path);
         read_command(param, &paramLen);
@@ -82,7 +89,6 @@ void init_shell(char *filename)
 
         if(paramLen > 0) {
             if(strcmp(param[paramLen-1], "&") == 0){
-                printf("%s\n", param[paramLen-1]);
                 if(fork()!=0) {
                     wait(NULL);
                 }
@@ -90,14 +96,10 @@ void init_shell(char *filename)
                     param[paramLen-1] = NULL;
                     strcat(shellFunction, param[0]);
                     execv(shellFunction, param);
-                    free(param[paramLen-1]);
                 }
             }
-            else if(redirect_exist(param, paramLen) == 1) {
-                printf("Redirected\n");
+            if(redirect_exist(param, paramLen) == 1) {
                 redirect(param, paramLen);
-                paramLen = 0;
-                free(param);
             }
             else if(strcmp(param[0], "cd") == 0) { // cd command
                 change_dir(param, paramLen, path_ptr);
@@ -118,7 +120,7 @@ void init_shell(char *filename)
                 echo(param, paramLen);
             }
             else if(strcmp(param[0], "help") == 0) {
-                system("man man more");
+                help(shell_path);
             }
             else if(strcmp(param[0], "pause") == 0) {
                 char ch;
@@ -129,11 +131,8 @@ void init_shell(char *filename)
                 break;
             }
 
-            // free parameters and reset paramLen to 0
-            if (paramLen > 0) {
-                paramLen = 0;
-                free(param);
-            }
+            // free parameters and set paramLen to 0
+            free(param);
         }
     }
 
@@ -143,6 +142,7 @@ void init_shell(char *filename)
 
 void run_prompt(char path[])
 {
+    // reference: https://www.geeksforgeeks.org/static-variables-in-c/
     static int first_time = 1;
 
     // if its the first time the run_prompt is called then clear
@@ -150,7 +150,7 @@ void run_prompt(char path[])
     if(first_time) {
         system("clear");
 
-        puts("Keyline Version 0.0.0.1");
+        puts("Keysh Version 0.0.0.1");
         puts("Press ctrl+c or enter \"quit\" to terminate shell\n");
         first_time = 0;
     }
@@ -160,6 +160,8 @@ void run_prompt(char path[])
 
 void read_command(char **param, int *paramLen)
 {
+    // reference: https://www.geeksforgeeks.org/fgetc-fputc-c/
+    // reference: https://www.tutorialspoint.com/c_standard_library/c_function_strtok.htm
     char line[1024] = "";
     int count = 0, i = 0;
     char *array[100];
