@@ -1,0 +1,100 @@
+
+NAME
+    Keysh - A simple shell
+
+SYNOPSIS
+    ./keysh [file]
+
+DESCRIPTION
+    Keyline is a sh-compatible command language interpreter that
+    executes commands read from the standard input or from a
+    file. It also incorporates useful features from the bash
+    shell.
+
+    This shell is intended for UNIX machines and doesn't operate
+    in a other systems such as Windows.
+
+REFERENCES
+
+    # Pajankar, A., 2021. I/O Redirection and Cron. In Practical
+    Linux with Raspberry Pi OS (pp. 111-116). Apress, Berkeley,
+    CA.
+    # Oualline, S., 1997. Practical C programming. " O'Reilly Me
+    dia, Inc.".
+    # Gehani, N. and Roome, W.D., 1989. The concurrent C program
+    ming language. Silicon Press.
+    # Van der Linden, P., 1994. Expert C programming: deep C sec
+    rets. Prentice Hall Professional.
+
+ARGUMENTS
+    If there is an arguement supplied Keyshell will assume the 
+    arguement is a filename and check for the file in the
+    directory and then run commands that are in that file.
+
+DEFINITIONS
+    blank - A space or tab.
+    word  - A sequence of characters considered as a single unit
+            by the shell. Also known as a token
+    name  - A word consisting only of alphanumeric characters 
+            and underscores, and begin with a alphabetic
+            character or an underscore. Also referred to as an
+            identifier.
+
+REDIRECTION
+    Before a command is executed, its input and output may be
+    redirected using a special notation interpreted by the
+    shell. Redirection allows commands' file handles to be 
+    duplicated. opened, closed, made to refer to different files
+    , and can change the files the command reads from and writes
+    to.
+
+        ls > listing
+
+    This is an example of output redirection, its main feature
+    is to output the contents of the command into a file
+    created using the word after the '>' as the filename. You
+    are also able to give standard input(s) to a program.
+
+    Likewise its possible to append/add contents of the command
+    to a file by doing this:
+
+        ls >> listing
+
+BATCHFILE
+    You can instantiate the shell with a batchfile. A batchfile
+    is a file with commands written inside it already. It will
+    then proccess those commands and it will also exit the shell
+    after the commands have been executed.
+
+COMMANDS
+    cd [path] - Change the current default directory. If no
+        arguement is present then it will print out the current
+        working directory. If a arguement is supplied but a
+        directory doesn't exist with the name of the arguement
+        it will throw an error.
+    
+    clr - Clears the screen
+
+    dir - List the contents of the directory.
+
+    environ - List all the environment strings.
+
+    echo [arg1 arg2... arg(n)]
+         - Displays arguements followed by a newline.
+
+    help - Displays the user manual using the more filter.
+
+    pause - Pause operation of the shell until 'Enter' is
+            pressed.
+    
+    quit - Quit out of the shell.
+
+
+/* 
+Name: The Ky Lien
+SID: 19321566
+
+Declaration of Plagiarism:
+https://drive.google.com/file/d/1hf0x9vBHD8r-X1Ob_1fE1I_xAtjTYkZQ/view
+
+*/
