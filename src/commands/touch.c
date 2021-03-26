@@ -1,22 +1,26 @@
 /*
 Title: A simple shell
 Author: The Ky Lien
-Purpose: Print out the help manual for shell using the more filter
+Purpose: Create a new file with the name given in arguement1
 
 references:
 - https://www.programiz.com/c-programming/library-function/string.h/strcat
-*/         
+*/ 
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
-void help(char *path)
+void touch(char **param)
 {
-    char cmd[150] = "more ";
-    strcat(cmd, path);
-    strcat(cmd, "/../manual/readme");
-    system(cmd);
+    FILE *fptr;
+    fptr = fopen(param[1], "rb+");
+    if(fptr == NULL) {
+        fptr = fopen(param[1], "wb");
+    }
+    else {
+        printf("File '%s' already exists!\n", param[1]);
+    }
 }
 
 /* 

@@ -44,6 +44,7 @@ int main(int argc, char** argv)
         filename = argv[1];
     }
 
+    // starts the shell
     init_shell(filename);
 
     return 0;
@@ -72,7 +73,7 @@ void init_shell(char *filename)
     strcat(shell_path, path);
 
 
-    // checks and executes batchfile if exist
+    // checks and executes batchfile if it exist
     if(filename != NULL) {
         get_param_batch(filename);
         return;
@@ -80,15 +81,17 @@ void init_shell(char *filename)
 
     while (1) {
 
+        // Declare a parameters array along with the parameter length
         char **param = (char **)malloc(150*sizeof(char));
         int paramLen = 0;
+
         // initiates the command prompt and read any arguements
         run_prompt(path);
         read_command(param, &paramLen);
 
 
         if(paramLen > 0) {
-            if(strcmp(param[paramLen-1], "&") == 0){
+            if(strcmp(param[paramLen-1], "&") == 0){ // checks for redirection
                 if(fork()!=0) {
                     wait(NULL);
                 }
@@ -99,33 +102,38 @@ void init_shell(char *filename)
                 }
             }
             if(redirect_exist(param, paramLen) == 1) {
-                redirect(param, paramLen);
+                redirect(param, paramLen); // input/output/append redirection
             }
-            else if(strcmp(param[0], "cd") == 0) { // cd command
-                change_dir(param, paramLen, path_ptr);
+            else if(strcmp(param[0], "cd") == 0) {
+                change_dir(param, paramLen, path_ptr); // change working directroy
             }
             else if(strcmp(param[0], "dir") == 0) {
-                dir();
+                dir(); // prints contents of current working directory
             }
             else if(strcmp(param[0], "clr") == 0) {
-                system("clear");
+                system("clear"); // clear the console
             }
             else if(strcmp(param[0], "environ") == 0) {
+                // print all environment variable strings
                 for (char **env = environ; *env!=0; env++) {
                     char *thisEnv = *env;
                     printf("%s\n", thisEnv);
                 }
             }
             else if(strcmp(param[0], "echo") == 0) {
-                echo(param, paramLen);
+                echo(param, paramLen); // print out arguements followed by a newline
             }
             else if(strcmp(param[0], "help") == 0) {
-                help(shell_path);
+                help(shell_path); // print out the shell manual
             }
             else if(strcmp(param[0], "pause") == 0) {
+                // pauses the console until Enter is pressed
                 char ch;
                 printf("Press ENTER key to Continue\n");
                 scanf("%c", &ch);
+            }
+            else if(strcmp(param[0], "touch") == 0) {
+                touch(param);
             }
             else if(strcmp(param[0], "quit") == 0) {
                 break;
@@ -195,6 +203,7 @@ void read_command(char **param, int *paramLen)
 }
 
 int redirect_exist(char **param, int paramLen) {
+    // checks if the usage of redirection is correct
     for(int i=0; i<paramLen; i++) {
         if(strcmp(param[i], ">") == 0 || strcmp(param[i], "<") == 0 || strcmp(param[i], ">>") == 0)
             return 1;

@@ -1,3 +1,14 @@
+/*
+Title: A simple shell
+Author: The Ky Lien
+Purpose: Run commands from batchfile to shell
+
+references:
+- https://www.tutorialspoint.com/c_standard_library/c_function_freopen.htm
+- https://www.geeksforgeeks.org/exec-family-of-functions-in-c/
+- https://www.csl.mtu.edu/cs4411.ck/www/NOTES/process/fork/create.html
+*/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -48,7 +59,7 @@ void redirect(char **param, int paramLen) {
         printf("Incorrect usage!\n");
     } else {
         for (int i=1; i<paramLen-1; i++) {
-            // printf("%s\n", param[i]); Test to see what Param[i] is
+            // printf("%s\n", param[i]); // Test to see what Param[i] is
             if(!(strcmp(param[i], "<"))) { // input redirection
                 flag = 1;
                 inp = param[i+1];

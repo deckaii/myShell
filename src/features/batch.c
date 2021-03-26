@@ -1,3 +1,13 @@
+/*
+Title: A simple shell
+Author: The Ky Lien
+Purpose: Run commands from batchfile to shell
+
+references:
+- https://www.zentut.com/c-tutorial/c-file-exists/
+- https://stackoverflow.com/questions/7920932/how-to-use-fgets-and-store-every-line-of-a-file-using-an-array-of-char-pointer
+*/
+
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -19,7 +29,7 @@ int cfileexists(char * filename){
 void get_param_batch(char *filename)
 {
     ssize_t read; size_t len = 0;
-    if(cfileexists(filename) == 1) {
+    if(cfileexists(filename) == 1) { // checks if the file exists in the directory
         FILE *file = fopen(filename, "r");
         char line[100];
         char **param = (char **)malloc(MAX_WORD_LENGTH*sizeof(char));
@@ -60,14 +70,19 @@ void get_param_batch(char *filename)
         }
 
         fclose(file);
+        free(param);
+        free(sh_path);
     }
     else {
         printf("Usage: ./myshell <filename>\n");
     }
 }
 
+/* 
+Name: The Ky Lien
+SID: 19321566
 
+Declaration of Plagiarism:
+https://drive.google.com/file/d/1hf0x9vBHD8r-X1Ob_1fE1I_xAtjTYkZQ/view
 
-// reference: https://www.zentut.com/c-tutorial/c-file-exists/
-
-// reference: https://stackoverflow.com/questions/7920932/how-to-use-fgets-and-store-every-line-of-a-file-using-an-array-of-char-pointer
+*/
