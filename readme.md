@@ -20,4 +20,6 @@ There are supporting exercises to help you with the project.  You will find them
 
 ## Compile and run instructions
 To compile the shell, just enter 'make' in the command line.
-To run the shell do './keysh <filename>'.
+To run the shell do './keysh' or to run with batchfile specify a filename after the
+shell being called like so
+    ./keysh [filename].

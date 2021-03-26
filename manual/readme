@@ -5,6 +5,9 @@ NAME
 SYNOPSIS
     ./keysh [file]
 
+AUTHOR
+    The Ky Lien - 19321566
+
 DESCRIPTION
     Keyline is a sh-compatible command language interpreter that
     executes commands read from the standard input or from a
@@ -31,14 +34,44 @@ ARGUMENTS
     arguement is a filename and check for the file in the
     directory and then run commands that are in that file.
 
-DEFINITIONS
-    blank - A space or tab.
-    word  - A sequence of characters considered as a single unit
-            by the shell. Also known as a token
-    name  - A word consisting only of alphanumeric characters 
-            and underscores, and begin with a alphabetic
-            character or an underscore. Also referred to as an
-            identifier.
+ENVIRONMENTAL CONCEPTS
+    Environment variable
+        These are a dynamic-named vale that can affect the way
+        running processes will behave on a computer. They are
+        part of the environemnt in which a process runs. They 
+        are strings that contain information about the system
+        you are using. It is possible to customize the variables
+        to change how a system works and change the behaviours 
+        of the applications on the system.
+
+    Background execution
+        Background process is a computer process that runs
+        behind the scenes and without user intervention.
+        In this shell to run a background process one must
+        use '&' at the end of the arguements. The shell should
+        execute the commands in the background then.
+
+PROCESS
+    A process is a program executing in the background. You can
+    have multiple processes executing the same program. Every
+    process can have its own copy of the program within its own
+    address space and it can execute independently from the
+    other copies. The system manages the execution of the
+    processes by dividing memory/operations between the
+    process(es).
+
+    PARENT/CHILD OPERATIONS
+        When a new process is created it is called the child and
+        the process in which that child process is created from
+        is called the parent. When a parent process creates a
+        child process, there are two main functions
+
+        1. The child and parent processes run concurrently.
+        2. The parent waits for the child to finish executing.
+
+    Processes help to speed up the execution of our programs, by
+    dividing the work between all available processes in the 
+    system.
 
 REDIRECTION
     Before a command is executed, its input and output may be
@@ -67,7 +100,7 @@ BATCHFILE
     after the commands have been executed.
 
 COMMANDS
-    cd [path] - Change the current default directory. If no
+    cd [DIRECTORY] - Change the current default directory. If no
         arguement is present then it will print out the current
         working directory. If a arguement is supplied but a
         directory doesn't exist with the name of the arguement
@@ -89,6 +122,13 @@ COMMANDS
     
     quit - Quit out of the shell.
 
+    touch [FILENAME] - Creates a new file in the current working
+            directory.
+
+EXTRA COMMAND
+    I wanted to add in touch as it is useful to create a file
+    from the shell. This provide the user with a easy way to
+    create a blank.
 
 /* 
 Name: The Ky Lien
