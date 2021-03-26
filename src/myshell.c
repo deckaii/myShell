@@ -6,7 +6,8 @@ redirection and has background execution capabilities.
 
 references:
 - Lab4b | https://ca216.computing.dcu.ie/labs/lab4b/
-- https://www.youtube.com/watch?v=z4LEuxMGGs8&t=287s Simple shell in C
+- https://www.youtube.com/watch?v=z4LEuxMGGs8&t=287s
+- https://brennan.io/2015/01/16/write-a-shell-in-c/
 */
 
 

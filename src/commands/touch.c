@@ -4,7 +4,7 @@ Author: The Ky Lien
 Purpose: Create a new file with the name given in arguement1
 
 references:
-- https://www.programiz.com/c-programming/library-function/string.h/strcat
+- https://www.guru99.com/c-file-input-output.html#:~:text=To%20create%20a%20file%20in,used%20to%20open%20a%20file.
 */ 
 
 #include <stdio.h>

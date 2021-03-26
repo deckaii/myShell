@@ -14,13 +14,13 @@ references:
 
 void change_dir(char **param, int paramLen, char *path) 
 {
-    if(paramLen == 1) {
+    if(paramLen == 1) { // print current directory if only 'cd' is entered
         printf("%s\n", path);
     }
     else if(chdir(param[1])==0) {
         getcwd(path, 100);
     }
-    else {
+    else { // print error if directory does not exist
         printf("Error: Directory '%s' does not exist!\n", param[1]);
     }
 }

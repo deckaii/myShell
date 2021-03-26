@@ -21,7 +21,7 @@ void dir()
     }
     else {
         while ((de = readdir(dir)) != NULL) {
-            if (de->d_type == DT_DIR)
+            if (de->d_type == DT_DIR) // checks if the item is a directory or file
                 printf("<DIR>   %s\n", de->d_name);
             else
                 printf("<FILE>  %s\n", de->d_name);
